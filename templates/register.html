@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form method="POST">
+            <input type="text" name="name" placeholder="Nama" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirm_password" placeholder="Konfirmasi Password" required>
+            <button type="submit">Daftar</button>
+        </form>
+        <p>Sudah punya akun? <a href="{{ url_for('login') }}">Login di sini</a></p>
+        
+        {% for message in get_flashed_messages() %}
+        <p style="color:red;">{{ message }}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deteksi Penyakit Kulit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <h1>Mediskin AI</h1>
+        <hr style="border-color: #ffffff33;">
+        <a href="{{ url_for('detect') }}">Deteksi Penyakit</a>
+        <a href="{{ url_for('history') }}">Riwayat Deteksi</a>
+        <a href="{{ url_for('profile') }}">Profil</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    <div class="main-content">
+        <h2>Deteksi Penyakit Kulit</h2>
+        <div class="card">
+            <h3>Form Deteksi</h3>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="text" name="patient_id" placeholder="ID Pasien" required>
+                <input type="text" name="patient_name" placeholder="Nama Pasien" required>
+                <input type="file" name="image" accept="image/*" required>
+                <button type="submit">Deteksi</button>
+            </form>
+
+            {% if result %}
+            <div class="result-box">
+                <h3>Hasil Deteksi</h3>
+                <p><strong>Penyakit:</strong> {{ result.prediction }}</p>
+                <p><strong>Akurasi:</strong> {{ result.accuracy }}%</p>
+                <p><strong>Rekomendasi:</strong> {{ result.recommendation }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h3>Informasi Penyakit</h3>
+            <p><strong>Monkeypox:</strong> Penyakit virus Monkepox yang dapat menimbulkan demam tinggi, sakit kepala, nyeri ototo, kelelahan, serta pembengkakan kelenjar getah bening </p>
+            <p><strong>Chickenpox:</strong> Cacar air yang disebabkan oleh infeksi virus varicella-zoster (VZV). Gejala awal yang umum terjadi meliputi demam, malaise, sakit kepala, dan munculnya ruam kulit khas yang berkembang menjadi vesikel berisi cairan </p>
+            <p><strong>Measles:</strong> Penyakit campak menular yang disebabkan oleh virus measles yang ditandai dengan demam, batuk, rhinitis, konjungtivitis, dan ruam makulopapular merah yang muncul di wajah maupun menyebar ke seluruh tubuh </p>
+            <p><strong>Sehat:</strong> Tidak ada indikasi penyakit kulit. Tetap jaga kebersihan dan kesehatan kulit Anda </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+''<!DOCTYPE html>
+<html>
+<head>
+    <title>Riwayat Deteksi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <h1>Mediskin AI</h1>
+        <hr style="border-color: #ffffff33;">
+        <a href="{{ url_for('detect') }}">Deteksi Penyakit</a>
+        <a href="{{ url_for('history') }}">Riwayat Deteksi</a>
+        <a href="{{ url_for('profile') }}">Profil</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    <div class="main-content">
+        <h2>Riwayat Deteksi Pasien</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Waktu</th>
+                    <th>ID Pasien</th>
+                    <th>Nama Pasien</th>
+                    <th>Gambar</th>
+                    <th>Hasil</th>
+                    <th>Akurasi</th>
+                    <th>Rekomendasi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in histories %}
+                <tr>
+                    <td>{{ row.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>{{ row.patient_id }}</td>
+                    <td>{{ row.patient_name }}</td>
+                    <td>
+                        <img src="{{ url_for('static', filename='uploads/' + row.image_path.split('/')[-1]) }}"
+                             class="uploaded-img" width="100">
+                    </td>
+                    <td>{{ row.prediction }}</td>
+                    <td>{{ "%.2f" | format(row.accuracy) }}%</td>
+                    <td>{{ row.recommendation }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7">Belum ada data deteksi.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination">
+            {% if histories.has_prev %}
+                <a href="{{ url_for('history', page=histories.prev_num) }}">« Prev</a>
+            {% endif %}
+        
+            {% for p in range(1, histories.pages + 1) %}
+                <a href="{{ url_for('history', page=p) }}" {% if p == histories.page %}class="active"{% endif %}>{{ p }}</a>
+            {% endfor %}
+        
+            {% if histories.has_next %}
+                <a href="{{ url_for('history', page=histories.next_num) }}">Next »</a>
+            {% endif %}
+        </div>               
+    </div>
+</body>
+</html>

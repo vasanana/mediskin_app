@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil Pengguna</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="sidebar">
+    <div style="text-align: center; margin-bottom: 30px;">
+       <div class="profile-initial">{{ user.name[0] | upper }}</div>
+       <div><strong>{{ user.name }}</strong></div>     
+    </div>
+    <hr style="border-color: #ffffff33;">
+    <a href="{{ url_for('detect') }}">Deteksi Penyakit</a>
+    <a href="{{ url_for('history') }}">Riwayat Deteksi</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<div class="main-content">
+    <h2>Profil Pengguna</h2>
+    <div class="card">
+        <h3>Data Diri</h3>
+        <form method="POST">
+            <input type="text" name="name" placeholder="Nama Lengkap" value="{{ user.name or '' }}" required>
+            <input type="text" name="email" placeholder="Email" value="{{ user.email or '' }}" required>
+            <input type="text" name="profession" placeholder="Profesi/Spesialisasi" value="{{ user.profession or '' }}" required>
+            <input type="text" name="str" placeholder="Nomor STR" value="{{ user.str or '' }}" required>
+            <input type="text" name="practice_place" placeholder="Tempat Praktik" value="{{ user.practice_place or '' }}" required>
+            <div class="button-wrapper">
+                <button type="submit" class="btn-profile">Simpan</button>
+            </div>
+        </form>
+        <hr>
+        <h3>Ganti Password</h3>
+        <form method="POST">
+            <input type="password" name="current_password" placeholder="Password Lama" required>
+            <input type="password" name="new_password" placeholder="Password Baru" required>
+            <input type="password" name="confirm_password" placeholder="Konfirmasi Password Baru" required>
+            <div class="button-wrapper">
+                <button type="submit" class="btn-profile">Simpan</button>
+            </div>
+        </form>
+
+        {% for message in get_flashed_messages() %}
+        <p style="color:#5cb85c">{{ message }}</p>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
